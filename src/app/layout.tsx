@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/header";
+import { LeftNav } from "@/components/leftNav";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-dm-sans",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${dmSans.variable} ${inter.variable} antialiased`}>
+        <div className="relative min-h-screen bg-white mt-3 mx-5">
+          {/* Left Navigation */}
+          <div className="fixed left-0 top-1/2 -translate-y-1/2 ml-2">
+            <LeftNav />
+          </div>
+          {/* Main Content Area */}
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1 ml-30 p-6">{children}</main>
+          </div>
+        </div>
       </body>
     </html>
   );
