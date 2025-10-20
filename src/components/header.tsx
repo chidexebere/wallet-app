@@ -1,29 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ChartIcon,
   ChatIcon,
   GroupIcon,
   HomeIcon,
   MainstackLogoIcon,
-  MenuIcon,
   NotificationsIcon,
   PaymentsIcon,
   WidgetsIcon,
 } from "./icons";
-import { Badge } from "./ui/badge";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import UserProfileDropdown from "./userProfileDropdown";
 
 const navigationItems = [
