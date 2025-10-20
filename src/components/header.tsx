@@ -14,20 +14,21 @@ import {
   WidgetsIcon,
 } from "./icons";
 import UserProfileDropdown from "./userProfileDropdown";
+import AppsDropdown from "./appsDropdown";
 
 const navigationItems = [
   { name: "Home", icon: HomeIcon, href: "/" },
   { name: "Analytics", icon: ChartIcon, href: "/analytics" },
   { name: "Revenue", icon: PaymentsIcon, href: "/revenue" },
   { name: "CRM", icon: GroupIcon, href: "/crm" },
-  { name: "Apps", icon: WidgetsIcon, href: "/apps" },
+  // { name: "Apps", icon: WidgetsIcon, href: "/apps" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 border-b border-white bg-white shadow-md rounded-full">
+    <header className="sticky top-0 z-10 border-b border-white bg-white shadow-md rounded-full">
       <div className="flex items-center justify-between px-8 py-4">
         <div className="text-2xl font-bold text-[#131316]">
           <MainstackLogoIcon className="text-4xl" />
@@ -41,7 +42,7 @@ export default function Header() {
                 <Button
                   variant="ghost"
                   className={`cursor-pointer flex items-center gap-2 rounded-full px-7 py-3 text-[#56616b] hover:text-[#131316] ${
-                    isActive ? "text-white bg-[#000004]" : "hover:bg-accent/50"
+                    isActive ? "text-white bg-[#000004]" : "hover:bg-accent/100"
                   }`}
                 >
                   <item.icon className="mb-1 size-5" />
@@ -50,6 +51,7 @@ export default function Header() {
               </Link>
             );
           })}
+          <AppsDropdown />
         </nav>
 
         <div className="flex items-center gap-4">

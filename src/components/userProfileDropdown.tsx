@@ -42,7 +42,7 @@ const UserProfileDropdown = () => {
   const fullName = data ? `${data.first_name} ${data.last_name}` : "";
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -56,7 +56,10 @@ const UserProfileDropdown = () => {
           <MenuIcon className="size-4 text-[#56616B]" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="mt-4 w-64" align="end">
+      <DropdownMenuContent
+        className="mr-[-30px] mt-5 w-64 border-white shadow-md"
+        align="end"
+      >
         {/* Header Section */}
         <DropdownMenuLabel className="flex items-center gap-3 p-4">
           <Badge className="h-8 min-w-8 rounded-full px-1 font-mono tabular-nums bg-gradient-to-br from-[#5C6670] to-[#131316] text-white flex items-center justify-center">
