@@ -29,3 +29,8 @@ type Transaction = {
 };
 
 type Transactions = Transaction[];
+
+type ChartData = {
+  date: string;
+  value: number;
+};

@@ -21,7 +21,7 @@ export default function TransactionSummary({
   return (
     <div className="space-y-8">
       {wallet.map((item) => (
-        <div key={item.name} className="flex justify-between gap-5">
+        <div key={item.name} className="flex justify-between space-x-8">
           <div className="flex flex-col gap-2">
             <span className="text-sm text-[#56616b]">{item.name}</span>
             <div className="text-3xl font-bold text-[#131316]">{`USD ${formatCurrency(

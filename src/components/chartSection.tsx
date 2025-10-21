@@ -1,5 +1,6 @@
 "use client";
 
+import { transformTransactionsToChartData } from "@/lib/utils";
 import {
   LineChart,
   Line,
@@ -9,29 +10,45 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { date: "Apr 1, 2022", value: 30 },
-  { date: "Apr 5, 2022", value: 60 },
-  { date: "Apr 10, 2022", value: 50 },
-  { date: "Apr 15, 2022", value: 70 },
-  { date: "Apr 20, 2022", value: 45 },
-  { date: "Apr 25, 2022", value: 55 },
-  { date: "Apr 30, 2022", value: 20 },
-];
+interface ChartSectionProps {
+  transactions: Transactions;
+}
 
-export default function ChartSection() {
+export default function ChartSection({ transactions }: ChartSectionProps) {
+  const data = transformTransactionsToChartData(transactions);
+
   return (
     <div className="rounded-lg bg-white">
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e9ea" />
-          <XAxis dataKey="date" stroke="#888f95" tick={{ fontSize: 12 }} />
-          <YAxis stroke="#888f95" tick={{ fontSize: 12 }} />
+        <LineChart
+          data={data}
+          margin={{
+            left: -60,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="#e5e9ea"
+            opacity={0.5}
+            vertical={false}
+            horizontal={false}
+          />
+          <XAxis
+            dataKey="date"
+            stroke="#888f95"
+            tick={{ fontSize: 14 }}
+            tickLine={false}
+            padding={{ left: 50, right: 40 }}
+            tickMargin={15}
+            ticks={[data[0]?.date, data[data.length - 1]?.date]}
+          />
+          <YAxis tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
           <Line
             type="monotone"
             dataKey="value"
             stroke="#ff5403"
-            strokeWidth={3}
+            strokeWidth={2}
             dot={false}
             isAnimationActive={false}
           />

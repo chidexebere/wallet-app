@@ -46,16 +46,6 @@ const AppsDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        {/* <Button
-          variant="ghost"
-          className="flex items-center gap-2 rounded-full bg-[#EFF1F6] pl-3 pr-4 py-2 text-white cursor-pointer hover:bg-[#EFF1F6]/80"
-        >
-          <Badge className="h-7 min-w-7 rounded-full px-1 font-mono tabular-nums bg-gradient-to-br from-[#5C6670] to-[#131316]">
-            {getInitials(fullName)}
-          </Badge>
-          <MenuIcon className="size-4 text-[#56616B]" />
-        </Button> */}
-
         <Button
           variant="ghost"
           className={`cursor-pointer flex items-center gap-2 rounded-full px-7 py-3 text-[#56616b] hover:text-[#131316] ${
@@ -75,9 +65,6 @@ const AppsDropdown = () => {
             key={item.name}
             className="flex items-center gap-3 p-4"
           >
-            {/* <Badge className="h-8 min-w-8 rounded-full px-1 font-mono tabular-nums bg-gradient-to-br from-[#5C6670] to-[#131316] text-white flex items-center justify-center">
-              {getInitials(fullName)}
-            </Badge> */}
             <item.icon className="h-5 w-5" />
             <div>
               <p className="text-sm font-medium"> {item.name}</p>

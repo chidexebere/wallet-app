@@ -1,14 +1,24 @@
 "use client";
 
-interface Transaction {
-  id: number;
-  title: string;
-  description: string;
-  amount: string;
-  date: string;
+import { formatCurrency } from "@/lib/utils";
+import { format, parseISO } from "date-fns";
+import { ArrowDownIcon, ArrowUpIcon } from "./icons";
+
+type Transaction = {
+  amount: number;
+  metadata: {
+    name: string;
+    type: string;
+    email: string;
+    quantity: number;
+    country: string;
+    product_name: string;
+  };
+  payment_reference: string;
   status: string;
-  icon: string;
-}
+  type: string;
+  date: string;
+};
 
 export default function TransactionItem({
   transaction,
@@ -16,14 +26,14 @@ export default function TransactionItem({
   transaction: Transaction;
 }) {
   const getIconBgColor = () => {
-    if (transaction.status === "completed") return "bg-[#e3fcf2]";
-    if (transaction.status === "successful") return "bg-[#f9e3e0]";
+    if (transaction.type === "deposit") return "bg-[#e3fcf2]";
+    if (transaction.type === "withdrawal") return "bg-[#f9e3e0]";
     return "bg-[#f9e3e0]";
   };
 
   const getIconColor = () => {
-    if (transaction.status === "completed") return "text-[#0ea163]";
-    if (transaction.status === "successful") return "text-[#ff5403]";
+    if (transaction.type === "deposit") return "text-[#0ea163]";
+    if (transaction.type === "withdrawal") return "text-[#ff5403]";
     return "text-[#ff5403]";
   };
 
@@ -37,26 +47,47 @@ export default function TransactionItem({
     <div className="flex items-center justify-between border-b border-[#e5e9ea] py-4 last:border-b-0">
       <div className="flex items-center gap-4">
         <div
-          className={`flex h-10 w-10 items-center justify-center rounded-full ${getIconBgColor()}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full ${getIconBgColor()}`}
         >
           <span className={`text-lg font-semibold ${getIconColor()}`}>
-            {transaction.icon}
+            {transaction.type === "withdrawal" ? (
+              <ArrowUpIcon className="size-5" />
+            ) : (
+              <ArrowDownIcon className="size-5" />
+            )}
           </span>
         </div>
         <div>
-          <p className="font-semibold text-[#131316]">{transaction.title}</p>
-          <p className="text-sm text-[#56616b]">{transaction.description}</p>
-          {(transaction.status === "successful" ||
-            transaction.status === "pending") && (
-            <p className={`text-xs font-semibold ${getStatusColor()}`}>
-              {transaction.status === "successful" ? "Successful" : "Pending"}
-            </p>
+          {transaction.type === "deposit" && (
+            <>
+              <p className="font-semibold text-[#131316]">
+                {transaction?.metadata?.product_name || "Cash Deposit"}
+              </p>
+              <p className="text-sm text-[#56616b]">
+                {transaction?.metadata?.name || ""}
+              </p>
+            </>
+          )}
+          {transaction.type === "withdrawal" && (
+            <>
+              <p className="font-semibold text-[#131316]">
+                {transaction?.metadata?.product_name || "Cash Withdrawal"}
+              </p>
+
+              <p className={`text-xs font-semibold ${getStatusColor()}`}>
+                {transaction.status === "successful" ? "Successful" : "Pending"}
+              </p>
+            </>
           )}
         </div>
       </div>
       <div className="text-right">
-        <p className="font-bold text-[#131316]">{transaction.amount}</p>
-        <p className="text-xs text-[#56616b]">{transaction.date}</p>
+        <p className="font-bold text-[#131316]">{`USD ${formatCurrency(
+          transaction?.amount || 0
+        )}`}</p>
+        <p className="text-xs text-[#56616b]">
+          {format(parseISO(transaction?.date || ""), "MMM d, yyyy")}
+        </p>
       </div>
     </div>
   );

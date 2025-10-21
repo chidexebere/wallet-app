@@ -30,9 +30,9 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-10 border-b border-white bg-white shadow-md rounded-full">
       <div className="flex items-center justify-between px-8 py-4">
-        <div className="text-2xl font-bold text-[#131316]">
+        <Link href={"/"} className="text-2xl font-bold text-[#131316]">
           <MainstackLogoIcon className="text-4xl" />
-        </div>
+        </Link>
 
         <nav className="flex items-center gap-8">
           {navigationItems.map((item) => {

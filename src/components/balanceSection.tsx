@@ -14,7 +14,7 @@ export default function BalanceSection({ balance }: BalanceSectionProps) {
           balance
         )}`}</h1>
       </div>
-      <Button className="rounded-full bg-[#131316] px-8 py-4 text-white hover:bg-[#000004] text-base">
+      <Button className="rounded-full bg-[#131316] px-10 py-6 text-white hover:bg-[#000004] text-base cursor-pointer">
         Withdraw
       </Button>
     </div>
