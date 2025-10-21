@@ -44,7 +44,7 @@ export default function TransactionItem({
   };
 
   return (
-    <div className="flex items-center justify-between border-b border-[#e5e9ea] py-4 last:border-b-0">
+    <div className="flex items-center justify-between py-4">
       <div className="flex items-center gap-4">
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-full ${getIconBgColor()}`}
