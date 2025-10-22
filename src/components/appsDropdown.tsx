@@ -1,6 +1,8 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
+import { useState } from "react";
 import {
   Product1Icon,
   Product2Icon,
@@ -41,37 +43,47 @@ const navigationItems = [
 ];
 
 const AppsDropdown = () => {
-  const pathname = usePathname();
-  const isActive = pathname === "/apps";
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className={`cursor-pointer flex items-center gap-2 rounded-full px-7 py-3 text-[#56616b] hover:text-[#131316] ${
-            isActive ? "text-white bg-[#000004]" : "hover:bg-accent/100"
-          }`}
+          className={`cursor-pointer flex items-center gap-2 rounded-full px-7 py-3 text-[#56616b] hover:text-[#131316] hover:bg-accent/100 data-[state=open]:bg-[#000004] data-[state=open]:text-white`}
         >
           <WidgetsIcon className="mb-1 size-5" />
           <span>Apps</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="mt-5 w-64 border-white shadow-md"
+        className="mt-4 w-84 border-white shadow-md rounded-xl p-2"
         align="start"
       >
-        {navigationItems.map((item) => (
+        {navigationItems.map((item, index) => (
           <DropdownMenuLabel
-            key={item.name}
-            className="flex items-center gap-3 p-4"
+            key={`${item.name}-${index}`}
+            className="cursor-pointer flex items-center justify-between gap-3 px-2 py-4 hover:border hover:border-accent/100 hover:shadow hover:rounded-xl"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
           >
-            <item.icon className="h-5 w-5" />
-            <div>
-              <p className="text-sm font-medium"> {item.name}</p>
-              <p className="text-xs text-muted-foreground">
-                {item.description}
-              </p>
+            <div className="flex items-center gap-3">
+              <span className="p-2 border border-accent/100 rounded-lg">
+                <item.icon className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-sm font-medium"> {item.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {item.description}
+                </p>
+              </div>
             </div>
+            <ChevronRight
+              size={12}
+              className={cn("text-[#56616b] hidden", {
+                block: hoveredIndex === index,
+              })}
+            />
           </DropdownMenuLabel>
         ))}
       </DropdownMenuContent>

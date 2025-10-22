@@ -21,7 +21,6 @@ const navigationItems = [
   { name: "Analytics", icon: ChartIcon, href: "/analytics" },
   { name: "Revenue", icon: PaymentsIcon, href: "/revenue" },
   { name: "CRM", icon: GroupIcon, href: "/crm" },
-  // { name: "Apps", icon: WidgetsIcon, href: "/apps" },
 ];
 
 export default function Header() {

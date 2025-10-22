@@ -57,12 +57,12 @@ const UserProfileDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="mr-[-30px] mt-5 w-64 border-white shadow-md"
+        className="mr-[-30px] mt-5 w-84 border-white shadow-md"
         align="end"
       >
         {/* Header Section */}
         <DropdownMenuLabel className="flex items-center gap-3 p-4">
-          <Badge className="h-8 min-w-8 rounded-full px-1 font-mono tabular-nums bg-gradient-to-br from-[#5C6670] to-[#131316] text-white flex items-center justify-center">
+          <Badge className="h-9 min-w-9 rounded-full px-1 font-mono tabular-nums bg-gradient-to-br from-[#5C6670] to-[#131316] text-white flex items-center justify-center">
             {getInitials(fullName)}
           </Badge>
           <div>
