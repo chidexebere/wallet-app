@@ -59,7 +59,7 @@ export const applyFilters = (
     filtered = filtered.filter((transaction) => {
       // Map filter keys to actual transaction types
       const typeMap: Record<string, string[]> = {
-        store: ["deposit", "withdrawal"],
+        store: ["deposit"],
         tipped: ["tipped"],
         withdrawals: ["withdrawal"],
         chargebacks: ["chargeback"],

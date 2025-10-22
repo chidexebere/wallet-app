@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 export interface IconProps {
   className?: string;
   mode?: "default" | "hover";
+  onClick?: () => void;
 }
 
 // ArrowDown Component

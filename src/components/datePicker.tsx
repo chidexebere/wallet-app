@@ -26,6 +26,16 @@ export function DatePicker({
   label,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
+  const [month, setMonth] = React.useState<Date | undefined>(
+    selectedDate || new Date()
+  );
+
+  // Update month when selectedDate changes from outside
+  React.useEffect(() => {
+    if (selectedDate) {
+      setMonth(selectedDate);
+    }
+  }, [selectedDate]);
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
@@ -35,7 +45,9 @@ export function DatePicker({
   };
 
   const handleSelect = (date: Date | undefined) => {
+    // Update the parent component
     onSelect?.(date);
+    // Close the popover so user can see the updated button
     setOpen(false);
     if (onClose) {
       onClose();
@@ -73,7 +85,8 @@ export function DatePicker({
           <Calendar
             mode="single"
             selected={selectedDate || undefined}
-            captionLayout="dropdown"
+            month={month}
+            onMonthChange={setMonth}
             onSelect={handleSelect}
             initialFocus
           />

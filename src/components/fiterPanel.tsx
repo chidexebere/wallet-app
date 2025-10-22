@@ -18,26 +18,14 @@ type StatusKey = "successful" | "pending" | "failed";
 interface FilterPanelProps {
   filters: FilterState;
   onFiltersChange: (filters: FilterState) => void;
-  onApply?: () => void;
-  onClear?: () => void;
-  showActionButtons?: boolean;
 }
 
 export default function FilterPanel({
   filters,
   onFiltersChange,
-  onApply,
-  onClear,
-  showActionButtons = false,
 }: FilterPanelProps) {
   const [isTransactionOpen, setIsTransactionOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
-  const [localDateRange, setLocalDateRange] = useState(filters.dateRange);
-
-  // Update local state when filters prop changes
-  useEffect(() => {
-    setLocalDateRange(filters.dateRange);
-  }, [filters.dateRange]);
 
   const handleTransactionChange = (key: TransactionKey) => {
     const currentTypes = filters.transactionType;
@@ -68,11 +56,15 @@ export default function FilterPanel({
     date: Date | undefined
   ) => {
     const newDateRange = {
-      ...localDateRange,
+      ...filters.dateRange,
       [type === "start" ? "startDate" : "endDate"]: date || null,
     };
 
-    setLocalDateRange(newDateRange);
+    onFiltersChange({
+      ...filters,
+      dateRange: newDateRange,
+      selectedDays: null, // Clear selected days when using custom date range
+    });
   };
 
   // Toggle days filter - if same button is clicked again, remove filter
@@ -82,14 +74,6 @@ export default function FilterPanel({
       ...filters,
       selectedDays: newSelectedDays,
       dateRange: { startDate: null, endDate: null }, // Clear custom date range when using days filter
-    });
-  };
-
-  const handleDatePickerClose = () => {
-    onFiltersChange({
-      ...filters,
-      dateRange: localDateRange,
-      selectedDays: null, // Clear days filter when using custom date range
     });
   };
 
@@ -138,14 +122,6 @@ export default function FilterPanel({
     }
   };
 
-  // Check if any filter is selected to enable/disable Apply button
-  const isAnyFilterSelected =
-    filters.selectedDays !== null ||
-    filters.transactionType.length > 0 ||
-    filters.transactionStatus.length > 0 ||
-    (filters.dateRange.startDate !== null &&
-      filters.dateRange.endDate !== null);
-
   return (
     <div className="max-w-2xl mx-auto bg-background">
       {/* Quick Filter Buttons */}
@@ -180,15 +156,13 @@ export default function FilterPanel({
         </h2>
         <div className="grid grid-cols-2 gap-4">
           <DatePicker
-            selectedDate={localDateRange.startDate}
+            selectedDate={filters.dateRange.startDate}
             onSelect={(date) => handleDateRangeChange("start", date)}
-            onClose={handleDatePickerClose}
             label="Start Date"
           />
           <DatePicker
-            selectedDate={localDateRange.endDate}
+            selectedDate={filters.dateRange.endDate}
             onSelect={(date) => handleDateRangeChange("end", date)}
-            onClose={handleDatePickerClose}
             label="End Date"
           />
         </div>
@@ -277,22 +251,6 @@ export default function FilterPanel({
           </div>
         )}
       </div>
-
-      {/* Apply and Clear Buttons - Only show if specified */}
-      {showActionButtons && onApply && onClear && (
-        <div className="flex gap-4 mt-8">
-          <Button
-            onClick={onApply}
-            disabled={!isAnyFilterSelected}
-            className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Apply Filters
-          </Button>
-          <Button onClick={onClear} variant="outline" className="flex-1 py-3">
-            Clear Filters
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

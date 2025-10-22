@@ -6,7 +6,7 @@ import TransactionsSection from "@/components/transactionsSection";
 import TransactionSummary from "@/components/transactionSummary";
 import { useTransactions } from "@/contexts/TransactionsContext";
 import { applyFilters, getInitialDateRange } from "@/lib/filterTransaction";
-import { useEffect, useState, useMemo } from "react"; // Add useMemo
+import { useEffect, useState, useMemo } from "react";
 
 import useSWR from "swr";
 
@@ -46,7 +46,7 @@ export default function Revenue() {
         dateRange: initialDateRange,
       }));
     }
-  }, [transactions.length, initialDateRange]); // Only depend on length and memoized value
+  }, [transactions.length, initialDateRange]);
 
   const handleApply = () => {
     const filtered = applyFilters(transactions, filters);
@@ -89,6 +89,7 @@ export default function Revenue() {
           setFilters={setFilters}
           handleApply={handleApply}
           handleClear={handleClear}
+          initialDateRange={initialDateRange}
         />
       )}
     </section>

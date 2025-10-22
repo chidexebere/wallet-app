@@ -8,6 +8,7 @@ import { ChevronDownIcon, DownloadIcon } from "./icons";
 import RightDrawer from "./rightDrawer";
 import FilterPanel from "./fiterPanel";
 import { Badge } from "./ui/badge";
+import { useState } from "react";
 
 interface TransactionsSectionProps {
   transactions: Transactions;
@@ -15,6 +16,7 @@ interface TransactionsSectionProps {
   setFilters: (filters: FilterState) => void;
   handleApply: () => void;
   handleClear: () => void;
+  initialDateRange: InitialDateRange;
 }
 
 const TransactionsSection = ({
@@ -23,17 +25,20 @@ const TransactionsSection = ({
   setFilters,
   handleApply,
   handleClear,
+  initialDateRange,
 }: TransactionsSectionProps) => {
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+
   // Check if any filter is actually applied (not just selected in UI)
-  const isFilterApplied =
+  const isAnyFilterSelected =
     filters.selectedDays !== null ||
     filters.transactionType.length > 0 ||
     filters.transactionStatus.length > 0 ||
-    (filters.dateRange.startDate !== null &&
-      filters.dateRange.endDate !== null);
+    filters.dateRange.startDate !== initialDateRange.startDate ||
+    filters.dateRange.endDate !== initialDateRange.endDate;
 
   // Check if Apply button should be enabled (filters are selected but not necessarily applied)
-  const isApplyDisabled = !isFilterApplied;
+  const isApplyDisabled = !isAnyFilterSelected;
 
   const openDrawerComponent = (
     <Button className="rounded-full bg-[#e9eaef] px-8 py-6 text-[#131316] hover:bg-[#dbdee5] cursor-pointer">
@@ -52,7 +57,10 @@ const TransactionsSection = ({
   const closeDrawerFooterButton = (
     <Button
       className="flex-1 p-6 rounded-full font-semibold bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-      onClick={handleApply}
+      onClick={() => {
+        handleApply();
+        setIsFilterApplied(true);
+      }}
       disabled={isApplyDisabled}
     >
       Apply
@@ -63,7 +71,10 @@ const TransactionsSection = ({
     <Button
       variant="outline"
       className="flex-1 p-6 rounded-full font-semibold bg-background text-foreground border-border hover:bg-secondary"
-      onClick={handleClear}
+      onClick={() => {
+        handleClear();
+        setIsFilterApplied(false);
+      }}
     >
       Clear
     </Button>

@@ -36,11 +36,13 @@ type ChartData = {
 };
 
 type FilterState = {
-  dateRange: {
-    startDate: Date | null;
-    endDate: Date | null;
-  };
+  dateRange: InitialDateRange;
   selectedDays: string | null;
   transactionType: string[];
   transactionStatus: string[];
+};
+
+type InitialDateRange = {
+  startDate: Date | null;
+  endDate: Date | null;
 };
