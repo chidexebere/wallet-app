@@ -34,3 +34,13 @@ type ChartData = {
   date: string;
   value: number;
 };
+
+type FilterState = {
+  dateRange: {
+    startDate: Date | null;
+    endDate: Date | null;
+  };
+  selectedDays: string | null;
+  transactionType: string[];
+  transactionStatus: string[];
+};

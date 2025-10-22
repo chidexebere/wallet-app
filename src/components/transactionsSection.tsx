@@ -5,79 +5,70 @@ import { Card } from "@/components/ui/card";
 import TransactionItem from "./transactionItem";
 import { getNoOfDays } from "@/lib/utils";
 import { ChevronDownIcon, DownloadIcon } from "./icons";
-
-//   {
-//     id: 1,
-//     title: "Psychology of Money",
-//     description: "Roy Cash",
-//     amount: "USD 600",
-//     date: "Apr 03,2022",
-//     status: "completed",
-//     icon: "✓",
-//   },
-//   {
-//     id: 2,
-//     title: "Buy me a coffee",
-//     description: "Jonathan Smart",
-//     amount: "USD 100",
-//     date: "Apr 02,2022",
-//     status: "completed",
-//     icon: "✓",
-//   },
-//   {
-//     id: 3,
-//     title: "How to build an online brand",
-//     description: "Delvan Ludacris",
-//     amount: "USD 100",
-//     date: "Apr 02,2022",
-//     status: "completed",
-//     icon: "✓",
-//   },
-//   {
-//     id: 4,
-//     title: "Cash withdrawal",
-//     description: "Successful",
-//     amount: "USD 3000.33",
-//     date: "Apr 01,2022",
-//     status: "successful",
-//     icon: "↗",
-//   },
-//   {
-//     id: 5,
-//     title: "Support my outreach",
-//     description: "Shawn Kane",
-//     amount: "USD 400",
-//     date: "Apr 02,2022",
-//     status: "completed",
-//     icon: "✓",
-//   },
-//   {
-//     id: 6,
-//     title: "Cash withdrawal",
-//     description: "Pending",
-//     amount: "USD 1004.44",
-//     date: "Apr 01,2022",
-//     status: "pending",
-//     icon: "↗",
-//   },
-//   {
-//     id: 7,
-//     title: "Learn how to pitch your idea",
-//     description: "Dujon Jericho",
-//     amount: "USD 500",
-//     date: "Apr 02,2022",
-//     status: "completed",
-//     icon: "✓",
-//   },
-// ];
+import RightDrawer from "./rightDrawer";
+import FilterPanel from "./fiterPanel";
+import { Badge } from "./ui/badge";
 
 interface TransactionsSectionProps {
   transactions: Transactions;
+  filters: FilterState;
+  setFilters: (filters: FilterState) => void;
+  handleApply: () => void;
+  handleClear: () => void;
 }
 
-export default function TransactionsSection({
+const TransactionsSection = ({
   transactions,
-}: TransactionsSectionProps) {
+  filters,
+  setFilters,
+  handleApply,
+  handleClear,
+}: TransactionsSectionProps) => {
+  // Check if any filter is actually applied (not just selected in UI)
+  const isFilterApplied =
+    filters.selectedDays !== null ||
+    filters.transactionType.length > 0 ||
+    filters.transactionStatus.length > 0 ||
+    (filters.dateRange.startDate !== null &&
+      filters.dateRange.endDate !== null);
+
+  // Check if Apply button should be enabled (filters are selected but not necessarily applied)
+  const isApplyDisabled = !isFilterApplied;
+
+  const openDrawerComponent = (
+    <Button className="rounded-full bg-[#e9eaef] px-8 py-6 text-[#131316] hover:bg-[#dbdee5] cursor-pointer">
+      <div className="flex items-center justify-around gap-2">
+        <span>Filter</span>
+        {isFilterApplied && (
+          <Badge className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
+            {transactions.length}
+          </Badge>
+        )}
+        <ChevronDownIcon className="size-5" />
+      </div>
+    </Button>
+  );
+
+  const closeDrawerFooterButton = (
+    <Button
+      className="flex-1 p-6 rounded-full font-semibold bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+      onClick={handleApply}
+      disabled={isApplyDisabled}
+    >
+      Apply
+    </Button>
+  );
+
+  const footerButton = (
+    <Button
+      variant="outline"
+      className="flex-1 p-6 rounded-full font-semibold bg-background text-foreground border-border hover:bg-secondary"
+      onClick={handleClear}
+    >
+      Clear
+    </Button>
+  );
+
   return (
     <Card className="rounded-lg bg-white py-8 border-0 shadow-none">
       <div className="pb-6 flex items-center justify-between border-b-1">
@@ -90,12 +81,15 @@ export default function TransactionsSection({
           </p>
         </div>
         <div className="flex gap-4">
-          <Button className="rounded-full bg-[#e9eaef] px-8 py-6 text-[#131316] hover:bg-[#dbdee5] cursor-pointer">
-            <div className="flex items-center gap-2">
-              <span>Filter</span>
-              <ChevronDownIcon className="size-5" />
-            </div>
-          </Button>
+          <RightDrawer
+            openDrawerComponent={openDrawerComponent}
+            closeDrawerComponent={closeDrawerFooterButton}
+            footerButton={footerButton}
+            title="Filter"
+          >
+            <FilterPanel filters={filters} onFiltersChange={setFilters} />
+          </RightDrawer>
+
           <Button className="rounded-full bg-[#e9eaef] px-8 py-6 text-[#131316] hover:bg-[#dbdee5] cursor-pointer">
             <div className="flex items-center gap-2">
               <span>Export list</span>
@@ -114,4 +108,6 @@ export default function TransactionsSection({
       </div>
     </Card>
   );
-}
+};
+
+export default TransactionsSection;

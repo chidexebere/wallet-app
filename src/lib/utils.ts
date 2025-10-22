@@ -20,6 +20,10 @@ export function formatCurrency(
 export const transformTransactionsToChartData = (
   transactions: Transaction[]
 ): ChartData[] => {
+  if (!transactions || transactions.length === 0) {
+    return [];
+  }
+
   return transactions.map((transaction) => ({
     date: format(parseISO(transaction.date), "MMM d, yyyy"),
     value: transaction.amount,
@@ -29,6 +33,10 @@ export const transformTransactionsToChartData = (
 export const sortTransactionsByDate = (
   transactions: Transaction[]
 ): Transaction[] => {
+  if (!transactions || transactions.length === 0) {
+    return [];
+  }
+
   return [...transactions].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );

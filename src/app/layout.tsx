@@ -3,6 +3,7 @@ import { DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import { LeftNav } from "@/components/leftNav";
+import { TransactionsProvider } from "@/contexts/TransactionsContext";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -37,7 +38,9 @@ export default function RootLayout({
           {/* Main Content Area */}
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-1 mx-28 p-6">{children}</main>
+            <TransactionsProvider>
+              <main className="flex-1 mx-28 p-6">{children}</main>
+            </TransactionsProvider>
           </div>
         </div>
       </body>

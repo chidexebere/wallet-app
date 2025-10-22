@@ -4,22 +4,6 @@ import { formatCurrency } from "@/lib/utils";
 import { format, parseISO } from "date-fns";
 import { ArrowDownIcon, ArrowUpIcon } from "./icons";
 
-type Transaction = {
-  amount: number;
-  metadata: {
-    name: string;
-    type: string;
-    email: string;
-    quantity: number;
-    country: string;
-    product_name: string;
-  };
-  payment_reference: string;
-  status: string;
-  type: string;
-  date: string;
-};
-
 export default function TransactionItem({
   transaction,
 }: {
@@ -61,7 +45,7 @@ export default function TransactionItem({
           {transaction.type === "deposit" && (
             <>
               <p className="font-semibold text-[#131316]">
-                {transaction?.metadata?.product_name || "Cash Deposit"}
+                {transaction?.metadata?.product_name || "Store Transactions"}
               </p>
               <p className="text-sm text-[#56616b]">
                 {transaction?.metadata?.name || ""}

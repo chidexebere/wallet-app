@@ -1,6 +1,7 @@
 "use client";
 
 import { transformTransactionsToChartData } from "@/lib/utils";
+import { useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -15,7 +16,19 @@ interface ChartSectionProps {
 }
 
 export default function ChartSection({ transactions }: ChartSectionProps) {
-  const data = transformTransactionsToChartData(transactions);
+  const data = useMemo(
+    () => transformTransactionsToChartData(transactions),
+    [transactions]
+  );
+
+  // Early return if no data
+  if (!data || data.length === 0) {
+    return (
+      <div className="rounded-lg bg-white p-8 text-center text-gray-500">
+        No chart data available
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-lg bg-white">
